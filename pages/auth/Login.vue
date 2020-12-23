@@ -39,7 +39,7 @@
                 </label>
                 <input
                   v-model="email"
-                  type="number"
+                  type="email"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Ma so giao vien"
                 >
@@ -102,8 +102,9 @@
 <script>
 // import github from '@/assets/img/github.svg'
 // import google from '@/assets/img/google.svg'
-import * as firebase from 'firebase/firebase-app.js'
-import 'firebase/auth'
+import { firebase } from '@firebase/app'
+import '@firebase/auth'
+import '@firebase/firestore'
 export default {
   layout: 'Auth',
   data () {
@@ -115,14 +116,25 @@ export default {
       error: ''
     }
   },
+  mounted () {
+    firebase.firestore().collection('Admin').get().then((res) => {
+      res.forEach((x) => {
+        console.log(x.data())
+      })
+    })
+  },
   methods: {
+    onAddTodo () {
+      this.$store.commit('addTodo', this.email)
+    },
     onSubmit () {
+      this.onAddTodo()
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then((data) => {
           console.log(data)
-          this.$router.replace({ name: '/' })
+          this.$router.replace({ name: 'auth/register' })
         })
         .catch((error) => {
           this.error = error

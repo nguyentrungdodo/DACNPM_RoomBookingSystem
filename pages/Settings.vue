@@ -1,0 +1,21 @@
+<template>
+  <div class="flex flex-wrap">
+    <div class="w-full lg:w-8/12 px-4">
+      <CardSettings />
+    </div>
+    <div class="w-full lg:w-4/12 px-4">
+      <CardProfile />
+    </div>
+  </div>
+</template>
+<script>
+import { CardSettings, CardProfile } from '@/components/common/index.js'
+
+export default {
+  layout: 'Admin',
+  components: {
+    CardSettings,
+    CardProfile
+  }
+}
+</script>
