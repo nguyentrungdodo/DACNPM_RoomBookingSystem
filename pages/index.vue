@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   layout: 'Admin'
 }
 </script>

@@ -10,14 +10,14 @@
               <h3
                 class="font-semibold text-lg text-gray-800"
               >
-                Thông Tin Sinh Viên
+                Thông Tin Phòng
               </h3>
               <button
                 class="bg-green-600 text-white ml-0 active:bg-gray-100 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                 type="button"
-                @click="showFormAddNewStudent"
+                @click="showFormAddNewRoom()"
               >
-                Thêm Sinh Viên
+                Thêm Phòng
               </button>
             </div>
           </div>
@@ -35,22 +35,22 @@
                 <th
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
                 >
-                  Email
+                  Type
                 </th>
                 <th
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
                 >
-                  Ngày Sinh
+                  status
                 </th>
                 <th
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
                 >
-                  MSSV
+                  Broken
                 </th>
                 <th
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
                 >
-                  Điện thoại
+                  Amount
                 </th>
                 <th
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left bg-gray-100 text-gray-600 border-gray-200"
@@ -61,8 +61,8 @@
             </thead>
             <tbody>
               <tr
-                v-for="(student, index) in students"
-                :key="'student-'+ index"
+                v-for="(room, index) in rooms"
+                :key="'Room-'+ index"
               >
                 <th
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center"
@@ -70,36 +70,37 @@
                   <span
                     class="ml-3 font-bold text-gray-700"
                   >
-                    {{ student.name }}
+                    {{ room.name }}
                   </span>
                 </th>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ student.email }}
+                  {{ room.type }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ student.birthday }}
+                  {{ room.status }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ student.mssv }}
+                  {{ room.broken }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ student.phone }}
+                  {{ room.amount }}
                 </td>
                 <td
+                  v-if="permission"
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right flex"
                 >
-                  <button class="rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="showFormUpdateStudent(index)">
+                  <button class="rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="showFormUpdateRoom(index)">
                     sửa
                   </button>
-                  <button class="ml-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="confirmDeleteStudent(index)">
+                  <button class="ml-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="confirmDeleteRoom(index)">
                     xóa
                   </button>
                 </td>
@@ -117,7 +118,6 @@
             <button
               class="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
               type="button"
-              @click="showModalUpdate=!showModalUpdate"
             >
               Google
             </button>
@@ -125,9 +125,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="w-full mb-12 px-4">
-      <card-table color="dark" />
-    </div> -->
     <!-- modal -->
     <div v-if="showModalUpdate" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex ">
       <div class="relative w-auto my-6 mx-auto max-w-3xl">
@@ -136,7 +133,7 @@
           <!--header Modal-->
           <div class="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
             <h3 class="text-3xl font-semibold">
-              Thông tin sinh viên: {{ studentInfo.mssv }}
+              Thông tin phòng: {{ roomInfo.name }}
             </h3>
           </div>
           <!--body-->
@@ -155,7 +152,7 @@
                       Tên
                     </label>
                     <input
-                      v-model="studentInfo.name"
+                      v-model="roomInfo.name"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -167,10 +164,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Email address
+                      Loại Phòng
                     </label>
                     <input
-                      v-model="studentInfo.email"
+                      v-model="roomInfo.type"
                       type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -182,10 +179,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      MSSV
+                      Trạng thái phòng
                     </label>
                     <input
-                      v-model="studentInfo.mssv"
+                      v-model="roomInfo.status"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -197,10 +194,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Phone
+                      Số máy hỏng
                     </label>
                     <input
-                      v-model="studentInfo.phone"
+                      v-model="roomInfo.broken"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -212,10 +209,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Ngày sinh
+                      Số máy
                     </label>
                     <input
-                      v-model="studentInfo.birthday"
+                      v-model="roomInfo.amount"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -226,10 +223,10 @@
           </div>
           <!--Modal footer-->
           <div class="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="toggleModdalUpdate">
+            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="toggleModdalUpdate()">
               Close
             </button>
-            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmUpdateStudent">
+            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmUpdateRoom()">
               Save Changes
             </button>
           </div>
@@ -243,7 +240,7 @@
           <!--header Modal-->
           <div class="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
             <h3 class="text-3xl font-semibold">
-              Thông tin sinh viên: {{ studentInfo.mssv }}
+              <!-- Thông tin sinh viên: {{ roomInfo.name }} -->
             </h3>
           </div>
           <!--body-->
@@ -262,7 +259,7 @@
                       Tên
                     </label>
                     <input
-                      v-model="studentInfo.name"
+                      v-model="roomInfo.name"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -274,10 +271,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Email address
+                      Loại Phòng
                     </label>
                     <input
-                      v-model="studentInfo.email"
+                      v-model="roomInfo.type"
                       type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -289,10 +286,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      MSSV
+                      Tình trạng phòng
                     </label>
                     <input
-                      v-model="studentInfo.mssv"
+                      v-model="roomInfo.status"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -304,10 +301,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Phone
+                      Số máy hỏng
                     </label>
                     <input
-                      v-model="studentInfo.phone"
+                      v-model="roomInfo.broken"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -319,10 +316,10 @@
                       class="block uppercase text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Ngày sinh
+                      Số máy
                     </label>
                     <input
-                      v-model="studentInfo.birthday"
+                      v-model="roomInfo.amount"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -333,11 +330,11 @@
           </div>
           <!--Modal footer-->
           <div class="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="toggleModdalAddNew">
+            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="toggleModdalAddNew()">
               Close
             </button>
-            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmAddNewStudent">
-              Add New Student
+            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmAddNewRoom()">
+              Add New Room
             </button>
           </div>
         </div>
@@ -349,9 +346,10 @@
 // import { firebase } from '@firebase/app'
 // import '@firebase/firestore'
 import { mapState, mapActions } from 'vuex'
-import { firebase } from '@firebase/app'
-import '@firebase/firestore'
+// import { firebase } from '@firebase/app'
+// import '@firebase/firestore'
 export default {
+  middleware: 'auth',
   layout: 'Admin',
   components: {
   },
@@ -359,101 +357,82 @@ export default {
     return {
       showModalUpdate: false,
       showModalAddNew: false,
-      studentInfo: {
-        id: '',
-        birthday: '',
-        email: '',
-        mssv: '',
-        name: '',
-        phone: ''
+      roomInfo: {
+        id: ' ',
+        type: ' ',
+        status: ' ',
+        broken: ' ',
+        name: ' ',
+        amount: ' '
       }
     }
   },
   computed: mapState({
-    students: state => state.students
+    rooms: state => state.rooms,
+    permission: state => state.permission
   }),
   async mounted () {
-    await this.fetchStudents()
+    await this.fetchRooms()
+    console.log(this.rooms)
   },
   methods: {
     ...mapActions({
-      fetchStudents: 'fetchStudents',
-      updateStudent: 'updateStudent',
-      deleteStudent: 'deleteStudent'
+      fetchRooms: 'fetchRooms',
+      updateRoom: 'updateRoom',
+      deleteRoom: 'deleteRoom'
     }),
     testAdd () {
-      // ->> set data voi id Admin 2
-      // firebase.firestore().collection('Admin').doc('Admin2').set({ email: 'abc@gmail.com', Password: '1234567' }).catch(error => alert(error))
-      // order by mssv 25 -> pagination
-      // firebase.firestore().collection('students').orderBy('mssv').limit(25).get().then((res) => {
-      //   res.forEach((x) => {
-      //     console.log(x.data())
-      //   })
-      // })
-      // test 2
-      // const temp = firebase.firestore().collection('students').where('mssv', '==', '102160244')
-      // temp.get().then((res) => { console.log(res) })
-      // if (temp) {
-      //   temp.get()
-      //     .then(function (querySnapshot) {
-      //       querySnapshot.forEach(function (doc) {
-      //       // doc.data() is never undefined for query doc snapshots
-      //         console.log(doc.id, ' => ', doc.data())
-      //       })
-      //     })
-      // } else { (console.log(temp)) }
-      // console.log(this.students)
       this.showModalUpdate = !this.showModalUpdate
     },
-    // toggle de hien form Update Student
+    // toggle de hien form Update Room
     toggleModdalUpdate () {
       this.showModalUpdate = !this.showModalUpdate
     },
-    // toggle de hien form Add New Student
+    // toggle de hien form Add New Room
     toggleModdalAddNew () {
       this.showModalAddNew = !this.showModalAddNew
     },
-    // Hien Modal AddNewStudent
-    showFormAddNewStudent () {
+    // Hien Modal AddNewRoom
+    showFormAddNewRoom () {
       // Cong them id them 1 de kiem soat
-      this.studentInfo.id = String(+this.students[this.students.length - 1].id + 1)
-      this.studentInfo.mssv = String(+this.students[this.students.length - 1].mssv + 1)
+      this.roomInfo.id = String(+this.rooms[this.rooms.length - 1].id + 1)
       this.toggleModdalAddNew()
     },
-    // Hien Modal UpdateStudent
+    // Hien Modal UpdateRoom
     // Phai truyen index vao
-    showFormUpdateStudent (index) {
-      this.studentInfo = this.students[index]
-      // console.log(this.students.length)
+    showFormUpdateRoom (index) {
+      this.roomInfo = this.rooms[index]
+      // console.log(this.roomInfo)
+      // console.log(index)
+      // console.log(this.Rooms.length)
       this.toggleModdalUpdate()
     },
-    // Xac nhan add student vao database --> data truyen vao updateStudent phai co id
-    confirmAddNewStudent () {
-      firebase.firestore()
-      this.updateStudent(this.studentInfo)
-      this.fetchStudents()
+    // Xac nhan add Room vao database --> data truyen vao updateRoom phai co id
+    confirmAddNewRoom () {
+      this.updateRoom(this.roomInfo)
+      this.fetchRooms()
       this.toggleModdalAddNew()
-      this.resetStudentInfo()
+      this.resetroomInfo()
     },
-    confirmUpdateStudent () {
-      this.updateStudent(this.studentInfo)
-      this.resetStudentInfo()
+    confirmUpdateRoom () {
+      this.updateRoom(this.roomInfo)
+      this.resetroomInfo()
       this.toggleModdalUpdate()
     },
-    confirmDeleteStudent (index) {
-      this.studentInfo = this.students[index]
-      this.deleteStudent(this.studentInfo)
-      this.fetchStudents()
-      this.resetStudentInfo()
+    confirmDeleteRoom (index) {
+      this.roomInfo = this.rooms[index]
+      this.deleteRoom(this.roomInfo)
+      this.fetchRooms()
+      this.resetroomInfo()
     },
-    resetStudentInfo () {
-      this.studentInfo = {
+    resetroomInfo () {
+      this.roomInfo = {
         id: '',
-        birthday: '',
-        email: '',
-        mssv: '',
+        type: '',
+        status: '',
+        broken: '',
         name: '',
-        phone: ''
+        amount: ''
       }
     }
   }

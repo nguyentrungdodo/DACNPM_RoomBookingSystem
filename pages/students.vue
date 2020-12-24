@@ -10,14 +10,14 @@
               <h3
                 class="font-semibold text-lg text-gray-800"
               >
-                Thông Tin Giáo Viên
+                Thông Tin Sinh Viên
               </h3>
               <button
                 class="bg-green-600 text-white ml-0 active:bg-gray-100 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                 type="button"
-                @click="showFormAddNewProfessor"
+                @click="showFormAddNewStudent"
               >
-                Thêm Giáo Viên
+                Thêm Sinh Viên
               </button>
             </div>
           </div>
@@ -61,8 +61,8 @@
             </thead>
             <tbody>
               <tr
-                v-for="(professor, index) in professors"
-                :key="'professor-'+ index"
+                v-for="(student, index) in students"
+                :key="'student-'+ index"
               >
                 <th
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center"
@@ -70,36 +70,37 @@
                   <span
                     class="ml-3 font-bold text-gray-700"
                   >
-                    {{ professor.name }}
+                    {{ student.name }}
                   </span>
                 </th>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ professor.email }}
+                  {{ student.email }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ professor.birthday }}
+                  {{ student.birthday }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ professor.msgv }}
+                  {{ student.mssv }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4"
                 >
-                  {{ professor.phone }}
+                  {{ student.phone }}
                 </td>
                 <td
+                  v-if="permission"
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right flex"
                 >
-                  <button class="rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="showFormUpdateProfessor(index)">
+                  <button class="rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="showFormUpdateStudent(index)">
                     sửa
                   </button>
-                  <button class="ml-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="confirmDeleteProfessor(index)">
+                  <button class="ml-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" @click="confirmDeleteStudent(index)">
                     xóa
                   </button>
                 </td>
@@ -117,7 +118,7 @@
             <button
               class="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
               type="button"
-              @click="toggleModdalAddNew"
+              @click="showModalUpdate=!showModalUpdate"
             >
               Google
             </button>
@@ -136,7 +137,7 @@
           <!--header Modal-->
           <div class="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
             <h3 class="text-3xl font-semibold">
-              Thông tin Giáo viên: {{ professorInfo.msgv }}
+              Thông tin sinh viên: {{ studentInfo.mssv }}
             </h3>
           </div>
           <!--body-->
@@ -155,7 +156,7 @@
                       Tên
                     </label>
                     <input
-                      v-model="professorInfo.name"
+                      v-model="studentInfo.name"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -170,7 +171,7 @@
                       Email address
                     </label>
                     <input
-                      v-model="professorInfo.email"
+                      v-model="studentInfo.email"
                       type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -185,7 +186,7 @@
                       MSSV
                     </label>
                     <input
-                      v-model="professorInfo.msgv"
+                      v-model="studentInfo.mssv"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -200,7 +201,7 @@
                       Phone
                     </label>
                     <input
-                      v-model="professorInfo.phone"
+                      v-model="studentInfo.phone"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -215,7 +216,7 @@
                       Ngày sinh
                     </label>
                     <input
-                      v-model="professorInfo.birthday"
+                      v-model="studentInfo.birthday"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -229,7 +230,7 @@
             <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="toggleModdalUpdate">
               Close
             </button>
-            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmUpdateProfessor">
+            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmUpdateStudent">
               Save Changes
             </button>
           </div>
@@ -243,7 +244,7 @@
           <!--header Modal-->
           <div class="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
             <h3 class="text-3xl font-semibold">
-              Thông tin giáo viên: {{ professorInfo.msgv }}
+              Thông tin sinh viên: {{ studentInfo.mssv }}
             </h3>
           </div>
           <!--body-->
@@ -262,7 +263,7 @@
                       Tên
                     </label>
                     <input
-                      v-model="professorInfo.name"
+                      v-model="studentInfo.name"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -277,7 +278,7 @@
                       Email address
                     </label>
                     <input
-                      v-model="professorInfo.email"
+                      v-model="studentInfo.email"
                       type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -292,7 +293,7 @@
                       MSSV
                     </label>
                     <input
-                      v-model="professorInfo.msgv"
+                      v-model="studentInfo.mssv"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -307,7 +308,7 @@
                       Phone
                     </label>
                     <input
-                      v-model="professorInfo.phone"
+                      v-model="studentInfo.phone"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -322,7 +323,7 @@
                       Ngày sinh
                     </label>
                     <input
-                      v-model="professorInfo.birthday"
+                      v-model="studentInfo.birthday"
                       type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                     >
@@ -336,8 +337,8 @@
             <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="toggleModdalAddNew">
               Close
             </button>
-            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmAddNewProfessor">
-              Add New Professor
+            <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="confirmAddNewStudent">
+              Add New Student
             </button>
           </div>
         </div>
@@ -352,6 +353,7 @@ import { mapState, mapActions } from 'vuex'
 import { firebase } from '@firebase/app'
 import '@firebase/firestore'
 export default {
+  middleware: 'auth',
   layout: 'Admin',
   components: {
   },
@@ -359,78 +361,79 @@ export default {
     return {
       showModalUpdate: false,
       showModalAddNew: false,
-      professorInfo: {
+      studentInfo: {
         id: '',
         birthday: '',
         email: '',
-        msgv: '',
+        mssv: '',
         name: '',
         phone: ''
       }
     }
   },
   computed: mapState({
-    professors: state => state.professors
+    students: state => state.students,
+    permission: state => state.permission
   }),
   async mounted () {
-    await this.fetchProfessors()
+    await this.fetchStudents()
   },
   methods: {
     ...mapActions({
-      fetchProfessors: 'fetchProfessors',
-      updateProfessor: 'updateProfessor',
-      deleteProfessor: 'deleteProfessor'
+      fetchStudents: 'fetchStudents',
+      updateStudent: 'updateStudent',
+      deleteStudent: 'deleteStudent'
     }),
     testAdd () {
       this.showModalUpdate = !this.showModalUpdate
     },
-    // toggle de hien form Update Professor
+    // toggle de hien form Update Student
     toggleModdalUpdate () {
       this.showModalUpdate = !this.showModalUpdate
     },
-    // toggle de hien form Add New Professor
+    // toggle de hien form Add New Student
     toggleModdalAddNew () {
       this.showModalAddNew = !this.showModalAddNew
     },
     // Hien Modal AddNewStudent
-    showFormAddNewProfessor () {
-      // Cong them id them 1 de kiem soat id cua database
-      this.professorInfo.id = String(+this.professors[this.professors.length - 1].id + 1)
-      this.professorInfo.msgv = String(+this.professors[this.professors.length - 1].msgv + 1)
+    showFormAddNewStudent () {
+      // Cong them id them 1 de kiem soat
+      this.studentInfo.id = String(+this.students[this.students.length - 1].id + 1)
+      this.studentInfo.mssv = String(+this.students[this.students.length - 1].mssv + 1)
       this.toggleModdalAddNew()
     },
     // Hien Modal UpdateStudent
     // Phai truyen index vao
-    showFormUpdateProfessor (index) {
-      this.professorInfo = this.professors[index]
+    showFormUpdateStudent (index) {
+      this.studentInfo = this.students[index]
       // console.log(this.students.length)
       this.toggleModdalUpdate()
     },
-    // Xac nhan add Professor vao database --> data truyen vao updateProfessor phai co id
-    confirmAddNewProfessor () {
+    // Xac nhan add student vao database --> data truyen vao updateStudent phai co id
+    confirmAddNewStudent () {
       firebase.firestore()
-      this.updateProfessor(this.professorInfo)
-      this.fetchProfessors()
+      this.updateStudent(this.studentInfo)
+      this.fetchStudents()
       this.toggleModdalAddNew()
-      this.resetProfessorInfo()
+      this.resetStudentInfo()
     },
-    confirmUpdateProfessor () {
-      this.updateProfessor(this.professorInfo)
-      this.resetProfessorInfo()
+    confirmUpdateStudent () {
+      this.updateStudent(this.studentInfo)
+      this.resetStudentInfo()
       this.toggleModdalUpdate()
     },
-    confirmDeleteProfessor (index) {
-      this.professorInfo = this.professors[index]
-      this.deleteProfessor(this.professorInfo)
-      this.fetchProfessors()
-      this.resetProfessorInfo()
+    confirmDeleteStudent (index) {
+      this.studentInfo = this.students[index]
+      this.deleteStudent(this.studentInfo)
+      this.fetchStudents()
+      this.resetStudentInfo()
     },
-    resetProfessorInfo () {
-      this.professorInfo = {
+    resetStudentInfo () {
+      this.studentInfo = {
         id: '',
         birthday: '',
         email: '',
-        msgv: '',
+        mssv: '',
         name: '',
         phone: ''
       }

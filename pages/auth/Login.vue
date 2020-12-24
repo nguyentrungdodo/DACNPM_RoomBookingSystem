@@ -11,25 +11,9 @@
                 Sign in with
               </h6>
             </div>
-            <!-- <div class="btn-wrapper text-center">
-              <button
-                class="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="github">
-                Github
-              </button>
-              <button
-                class="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="google">
-                Google
-              </button>
-            </div> -->
           </div>
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form @submit.prevent="onSubmit">
+            <form @submit.prevent="login(loginData)">
               <div class="relative wfull mb-3">
                 <label
                   class="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -38,8 +22,8 @@
                   Tai Khoan
                 </label>
                 <input
-                  v-model="email"
-                  type="email"
+                  v-model="loginData.username"
+                  type="text"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Ma so giao vien"
                 >
@@ -53,7 +37,7 @@
                   Password
                 </label>
                 <input
-                  v-model="password"
+                  v-model="loginData.password"
                   type="password"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Password"
@@ -100,46 +84,31 @@
   </div>
 </template>
 <script>
-// import github from '@/assets/img/github.svg'
-// import google from '@/assets/img/google.svg'
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
-import '@firebase/firestore'
+import { mapActions } from 'vuex'
 export default {
   layout: 'Auth',
   data () {
     return {
       // github,
       // google,
-      email: '',
-      password: '',
+      loginData: {
+        username: '',
+        password: ''
+      },
       error: ''
     }
   },
   mounted () {
-    firebase.firestore().collection('Admin').get().then((res) => {
-      res.forEach((x) => {
-        console.log(x.data())
-      })
-    })
+    // firebase.firestore().collection('Admin').get().then((res) => {
+    //   res.forEach((x) => {
+    //     console.log(x.data())
+    //   })
+    // })
   },
   methods: {
-    onAddTodo () {
-      this.$store.commit('addTodo', this.email)
-    },
-    onSubmit () {
-      this.onAddTodo()
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then((data) => {
-          console.log(data)
-          this.$router.replace({ name: 'auth/register' })
-        })
-        .catch((error) => {
-          this.error = error
-        })
-    }
+    ...mapActions({
+      login: 'login'
+    })
   }
 }
 </script>

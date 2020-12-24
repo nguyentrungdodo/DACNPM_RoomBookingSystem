@@ -29,10 +29,11 @@
       <a
         href="javascript:void(0);"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
+        @click="onLogout()"
       >
-        Action
+        Logout
       </a>
-      <a
+      <!-- <a
         href="javascript:void(0);"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
       >
@@ -50,14 +51,14 @@
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
       >
         Seprated link
-      </a>
+      </a> -->
     </div>
   </div>
 </template>
 
 <script>
 import { createPopper } from '@popperjs/core'
-
+import { mapActions } from 'vuex'
 import image from '@/assets/img/team-1-800x800.jpg'
 
 export default {
@@ -68,6 +69,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      logout: 'logout'
+    }),
     toggleDropdown (event) {
       event.preventDefault()
       if (this.dropdownPopoverShow) {
@@ -78,6 +82,9 @@ export default {
           placement: 'bottom-start'
         })
       }
+    },
+    onLogout () {
+      this.logout()
     }
   }
 }

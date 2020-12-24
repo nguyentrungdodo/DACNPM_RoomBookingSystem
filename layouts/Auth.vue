@@ -1,6 +1,6 @@
 <template>
   <div>
-    <auth-navbar />
+    <!-- <auth-navbar /> -->
     <main>
       <section class="relative w-full h-full py-40 min-h-screen">
         <div
@@ -8,19 +8,19 @@
           :style="`background-image: url('${registerBg2}');`"
         />
         <router-view />
-        <footer-small absolute />
+        <!-- <footer-small absolute /> -->
       </section>
     </main>
   </div>
 </template>
 <script>
 import registerBg2 from '@/assets/img/register_bg_2.png'
-import { AuthNavbar, FooterSmall } from '~/components/common/index'
+// import { AuthNavbar, FooterSmall } from '~/components/common/index'
 
 export default {
   components: {
-    AuthNavbar,
-    FooterSmall
+    // AuthNavbar,
+    // FooterSmall
   },
   data () {
     return {

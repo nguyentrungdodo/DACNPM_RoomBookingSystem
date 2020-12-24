@@ -3,5 +3,7 @@ export default () => ({
   courses: [],
   professors: [],
   rooms: [],
-  students: []
+  students: [],
+  role: '',
+  permission: false
 })

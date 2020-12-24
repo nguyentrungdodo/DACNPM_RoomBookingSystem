@@ -18,7 +18,7 @@
         class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
         to="/"
       >
-        Vue Notus
+        Bách Khoa Đà Nẵng
       </router-link>
       <!-- User -->
       <ul class="md:hidden items-center flex flex-wrap list-none">
@@ -72,18 +72,18 @@
         <!-- Divider -->
         <hr class="my-4 md:min-w-full">
         <!-- Heading -->
-        <h6
+        <!-- <h6
           class="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
         >
           Admin Layout Pages
-        </h6>
+        </h6> -->
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
             <router-link
               v-slot="{ href, route, navigate, isActive }"
-              to="/admin/dashboard"
+              to="/students"
             >
               <a
                 :href="href"
@@ -99,7 +99,7 @@
                   class="fas fa-tv mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 />
-                Dashboard
+                List Sinh Viên
               </a>
             </router-link>
           </li>
@@ -107,7 +107,7 @@
           <li class="items-center">
             <router-link
               v-slot="{ href, route, navigate, isActive }"
-              to="/admin/settings"
+              to="/professors"
             >
               <a
                 :href="href"
@@ -123,7 +123,7 @@
                   class="fas fa-tools mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 />
-                Settings
+                List Giáo Viên
               </a>
             </router-link>
           </li>
@@ -131,7 +131,7 @@
           <li class="items-center">
             <router-link
               v-slot="{ href, route, navigate, isActive }"
-              to="/admin/tables"
+              to="/courses"
             >
               <a
                 :href="href"
@@ -147,7 +147,7 @@
                   class="fas fa-table mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 />
-                Tables
+                List Học Phần
               </a>
             </router-link>
           </li>
